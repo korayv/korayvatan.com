@@ -127,32 +127,65 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Mouse move effect on hero section
-const hero = document.querySelector('.hero');
-if (hero) {
-    hero.addEventListener('mousemove', (e) => {
-        const { clientX, clientY } = e;
-        const { width, height, left, top } = hero.getBoundingClientRect();
-        
-        const x = (clientX - left) / width - 0.5;
-        const y = (clientY - top) / height - 0.5;
-        
-        const codeBlock = document.querySelector('.code-block');
-        if (codeBlock) {
-            codeBlock.style.transform = `
-                perspective(1000px) 
-                rotateY(${x * 5}deg) 
-                rotateX(${-y * 5}deg)
-            `;
-        }
+// 3D Card Effect - Cursor Following
+const codeBlock = document.querySelector('.code-block');
+
+if (codeBlock) {
+    // Add shine overlay
+    const shine = document.createElement('div');
+    shine.className = 'code-shine';
+    shine.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(255, 255, 255, 0.1) 0%,
+            transparent 40%
+        );
+        pointer-events: none;
+        z-index: 10;
+        border-radius: 16px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    `;
+    codeBlock.appendChild(shine);
+    
+    codeBlock.addEventListener('mouseenter', () => {
+        shine.style.opacity = '1';
     });
     
-    hero.addEventListener('mouseleave', () => {
-        const codeBlock = document.querySelector('.code-block');
-        if (codeBlock) {
-            codeBlock.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg)';
-            codeBlock.style.transition = 'transform 0.5s ease';
-        }
+    codeBlock.addEventListener('mouseleave', () => {
+        shine.style.opacity = '0';
+        codeBlock.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+        codeBlock.style.transition = 'transform 0.6s ease-out';
+    });
+    
+    codeBlock.addEventListener('mousemove', (e) => {
+        const rect = codeBlock.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = ((y - centerY) / centerY) * -15;
+        const rotateY = ((x - centerX) / centerX) * 15;
+        
+        codeBlock.style.transition = 'transform 0.1s ease-out';
+        codeBlock.style.transform = `
+            perspective(1000px) 
+            rotateX(${rotateX}deg) 
+            rotateY(${rotateY}deg) 
+            scale(1.02)
+        `;
+        
+        // Update shine position
+        const percentX = (x / rect.width) * 100;
+        const percentY = (y / rect.height) * 100;
+        shine.style.setProperty('--mouse-x', `${percentX}%`);
+        shine.style.setProperty('--mouse-y', `${percentY}%`);
     });
 }
 
