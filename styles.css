@@ -638,7 +638,7 @@ body {
 
 .courses-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
     gap: 24px;
 }
 
@@ -760,6 +760,66 @@ body {
 
 .course-card:hover .course-cta svg {
     transform: translate(4px, -4px);
+}
+
+/* Entrepreneurship Card Variant */
+.course-card.entrepreneurship {
+    background: linear-gradient(135deg, rgba(255, 165, 0, 0.08), rgba(255, 165, 0, 0.02));
+    border-color: rgba(255, 165, 0, 0.3);
+}
+
+.course-card.entrepreneurship::before {
+    background: linear-gradient(90deg, #ff9500, #ffb347);
+}
+
+.course-card.entrepreneurship:hover {
+    border-color: rgba(255, 165, 0, 0.5);
+    box-shadow: 
+        0 20px 60px rgba(255, 165, 0, 0.15),
+        0 0 40px rgba(255, 165, 0, 0.1);
+}
+
+.course-card.entrepreneurship .course-icon {
+    background: rgba(255, 165, 0, 0.1);
+    color: #ff9500;
+}
+
+.course-card.entrepreneurship:hover .course-icon {
+    background: #ff9500;
+    color: white;
+}
+
+.course-card.entrepreneurship .course-stats .stat strong {
+    color: #ff9500;
+}
+
+.course-card.entrepreneurship .course-cta {
+    background: rgba(255, 165, 0, 0.1);
+    border-color: rgba(255, 165, 0, 0.3);
+    color: #ff9500;
+}
+
+.course-card.entrepreneurship:hover .course-cta {
+    background: #ff9500;
+    color: white;
+    border-color: #ff9500;
+}
+
+/* Video List */
+.course-videos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.video-item {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+    white-space: nowrap;
 }
 
 /* Startups Section */
@@ -1110,10 +1170,18 @@ body {
         grid-template-columns: 1fr;
     }
     
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+    
     .course-card {
         flex-direction: column;
         text-align: center;
         gap: 20px;
+    }
+    
+    .course-videos {
+        justify-content: center;
     }
     
     .course-cta {
