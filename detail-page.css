@@ -206,6 +206,13 @@
     color: var(--accent-secondary);
 }
 
+.solution-intro {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
 /* Results Grid */
 .results-grid {
     display: grid;
